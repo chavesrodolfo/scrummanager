@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tAdmin.xhtml">
+
+	<ui:define name="titulo">
+            Cadastro de Conhecimentos
+    	</ui:define>
+
+	<ui:define name="conteudo">
+		  
+	   <h:form id="knowledgeForm">
+	    	<p:tooltip global="true"/>
+			
+				<p:panel id="panelKnowledge" 
+	    				 header="Cadastrar novo Conhecimento" 
+	    				 style="text-align:left; width:100%;" >
+	    				 
+	    			<h:panelGrid columns="3">				
+	    			
+	    				<h:outputLabel value="Nome" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<h:inputText id="knowledgeName" value="#{knowledgeController.knowledge.name}" size="45"/>
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="Nome do conhecimento" style="width: 1em; height: 1em;"/>
+	    				
+	    			</h:panelGrid>
+	    			
+	    			<br />
+	    			
+	    			<p:commandButton image="ui-icon-circle-plus" value="Gravar" action="#{knowledgeController.save}" update="panelKnowledge, msgs, knowledgeList" ajax="false" />
+	    			<p:commandButton image="ui-icon-arrowrefresh-1-s" type="reset" value="Restaurar" />
+    			    				 
+	    				 
+	    		</p:panel> 
+	    		
+				<p:growl id="msgs"/>
+	    	    
+	    		<p:panel id="knowledgeList" 
+	    				 header="Lista de Conhecimentos" 
+	    				 style="text-align:left; width:100%;" toggleable="true" collapsed="false" >
+	    		
+	    		
+					<p:dataTable value="#{knowledgeController.knowledgeList}" ajax="true"
+		   					     id="table"
+		   					     emptyMessage="Nenhum registro encontrado"
+		   					     rowIndexVar="var"
+		   					     paginator="true"
+		   					     paginatorPosition="bottom"
+		   					     firstPageLinkLabel="Primeira"
+		   					     previousPageLinkLabel="Anterior"
+		   					     nextPageLinkLabel="Proxima"
+		   					     lastPageLinkLabel="ultima"
+		   					     rows="5"
+		   					     var="knowledge">
+	 
+		   				<p:column>
+		   					<f:facet name="header">
+								<h:outputText value="Conhecimento" />
+							</f:facet>
+							<h:outputText value="#{knowledge.name}" />	
+		   				</p:column>
+		   						   				
+		   				<p:column style="text-align: center;">
+			   				 <p:commandButton image="ui-icon-pencil" value="alterar" update="knowledgeForm, msgs">
+		                        <f:setPropertyActionListener target="#{knowledgeController.knowledge}" value="#{knowledge}"/>
+		                     </p:commandButton>
+	                    </p:column>
+		   				
+		   				<p:column style="text-align: center;">
+			   				 <p:commandButton image="ui-icon-closethick" action="#{knowledgeController.delete}" 
+			   				 	value="excluir" update="knowledgeForm, msgs" actionListener="#{messagesController.msgExclusao}" >
+		                        <f:setPropertyActionListener target="#{knowledgeController.knowledge}" value="#{knowledge}" />
+		                     </p:commandButton>
+	                    </p:column>
+		   			
+		   			</p:dataTable>
+		   			    		
+	    		</p:panel>
+	    
+	    </h:form>
+			
+	</ui:define>
+</ui:composition>
+</html>

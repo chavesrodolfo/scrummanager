@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Reuniões
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="conferenceForm">
+				<br />
+				<h2>
+					<h:outputText value="#{projectController.project.identification}" />
+				</h2>
+				<br />
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Reuniões -->
+				<p:panel id="painelList" header="Lista de reuniões cadastradas"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+					<p:dataTable value="#{conferenceController.conferencesProject}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="conference">
+
+						<p:column style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="Identificador" />
+							</f:facet>
+							<h:outputText value="#{conference.identification}" />
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{conference.registrationDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="Sprint Review" />
+							</f:facet>
+							<h:outputText value="#{conference.sprintReview}" />
+						</p:column>
+						
+						<p:column style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="Sprint Aprovada" />
+							</f:facet>
+							<h:outputText value="#{conference.approved}" />
+						</p:column>
+						
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="conferenceForm, msgs"
+								actionListener="#{conferenceController.atualizarTela}">
+								<f:setPropertyActionListener
+									target="#{conferenceController.conference}"
+									value="#{conference}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:panel id="painelCadastro" header="Cadastrar Nova Reunião">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="Identificador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="identificador"
+							value="#{conferenceController.conference.identification}"
+							size="15" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Identificador da Reunião" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Descrição">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputTextarea id="desciption"
+							value="#{conferenceController.conference.description}" size="300" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Comentários e pontos importantes da reunião"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:calendar id="registrationDate"
+							value="#{conferenceController.conference.registrationDate}"
+							pattern="dd/MM/yyyy" size="10" effect="fadeIn" locale="pt-BR" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data da reunião" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Sprint Review">
+						</h:outputLabel>
+						<h:selectBooleanCheckbox valueChangeListener="S"
+							value="#{conferenceController.conference.sprintReview}"
+							id="sprintReview"></h:selectBooleanCheckbox>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Selecione se a reunião for do tipo Sprint Review"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Aprovada">
+						</h:outputLabel>
+						<h:selectBooleanCheckbox title="Sim" valueChangeListener="S"
+							value="#{conferenceController.conference.approved}"
+							id="approved"></h:selectBooleanCheckbox>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Selecione se a sprint for aprovada nesta reunião de Sprint Review "
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Motivo reprovação">
+						</h:outputLabel>
+						<p:inputText id="approvedReason"
+							value="#{conferenceController.conference.approvedReason}"
+							size="50" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Motivo da sprint não ter sido aprovada nesta reunião"
+							style="width: 1em; height: 1em;" />
+
+					</h:panelGrid>
+					<br />
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{conferenceController.gravar}" ajax="false"
+						update="painelCadastro, painelList, msgs">
+						<f:setPropertyActionListener
+							target="#{conferenceController.conference.project}"
+							value="#{projectController.project}" />
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="projectMenu" 
+						ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

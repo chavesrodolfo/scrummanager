@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo" /></title>
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/css/style_usuario.css"
+		rel="stylesheet" type="text/css" />
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/css/button.css"
+		rel="stylesheet" type="text/css" />
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/css/organizze/skin.css"
+		rel="stylesheet" type="text/css" />
+
+</h:head>
+
+<h:body>
+	<h:form>
+		<div id="conteudo">
+
+		<div style="text-align: left; width: auto;">
+		
+		<p:panel id="painelPrincipal" header="Scrum Manager - Gerenciamento de Projetos">
+
+			<div style="width: auto; text-align: right;">
+				<h:outputText value="Voce está logado como" /> 
+				<b><h:outputText value="#{loginController.username} | " /></b>
+				
+				<h:panelGroup rendered="#{loginController.admin}">
+					<a href="#{facesContext.externalContext.requestContextPath}/paginas/admin/painelAdministrativo.jsf">
+						Administração | 
+					</a>
+				</h:panelGroup> 
+				
+				<h:commandLink value="Sair" action="#{loginController.logout}" />
+			</div>
+			
+			<h1>
+				<a href="#{facesContext.externalContext.requestContextPath}/paginas/usuario/painelUsuario.jsf">
+					Scrum Manager </a>
+			</h1>
+			
+			<br />
+			
+			<p:breadCrumb>
+				<p:menuitem>
+					<h:commandLink value="Home"
+						action="#{projectController.painelUsuario}" />
+				</p:menuitem>
+				<p:menuitem>
+					<h:commandLink value="Home"
+						action="#{projectController.painelUsuario}" />
+				</p:menuitem>
+				
+			</p:breadCrumb>
+
+			<div style="margin-top: 10px;">
+				<ui:insert name="conteudo" />
+			</div>
+
+		</p:panel></div>
+		</div>
+
+	</h:form>
+</h:body>
+</html>

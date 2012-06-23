@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Pessoas
+    </ui:define>
+
+	<ui:define name="conteudo">
+			<f:view>
+		<h:form id="listPeopleForm">
+		<p:growl id="msgs" />
+			<!-- Lista de pessoas -->
+			<p:panel id="painelList" header="Lista de pessoas cadastradas"
+				style="text-align:left; width:100%;" toggleable="true"
+				collapsed="false">
+
+
+				<p:dataTable value="#{peopleController.listPeoples}" id="tabela"
+					emptyMessage="Nenhum registro encontrado" rowIndexVar="var"
+					paginator="true" paginatorPosition="bottom" rows="5"
+					var="people" ajax="true">
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{people.name}"/>
+					</p:column>
+
+					<p:column headerText="Email">
+						<h:outputText value="#{people.email}" />
+					</p:column>
+					
+					<p:column headerText="Telefone">
+						<h:outputText value="#{people.phone}" />
+					</p:column>
+
+					<p:column headerText="Ações" style="text-align: center;">
+						<p:commandButton image="ui-icon-pencil" ajax="false" actionListener="#{peopleController.atualizarTela}" value="alterar" 
+							update="msgs, listPeopleForm">
+							<f:setPropertyActionListener
+								target="#{peopleController.people}" value="#{people}" />
+						</p:commandButton>
+						<p:commandButton image="ui-icon-closethick" ajax="false"
+							action="#{peopleController.excluir}" value="excluir"
+							update="msgs, listPeopleForm"
+							actionListener="#{messagesController.msgExclusao}">
+							<f:setPropertyActionListener
+								target="#{peopleController.people}" value="#{people}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</p:panel>
+			<br/>
+			
+			<p:panel id="painelCadastro" header="Cadastrar novo colaborador">
+
+				<h:panelGrid columns="3">
+					<h:outputLabel value="Nome">
+						<h:outputLabel value="*" style="color:green;" />
+					</h:outputLabel>
+					<p:inputText id="namePeople"
+						value="#{peopleController.people.name}" size="45" />
+					<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Nome da Pessoa" style="width: 1em; height: 1em;" />
+
+					<h:outputLabel value="E-mail" />
+					<p:inputText id="emailPeople"
+						value="#{peopleController.people.email}"  size="45" />
+					<p:commandButton tabindex="99" image="ui-icon-help"
+						title="E-mail da Pessoa" style="width: 1em; height: 1em;" />
+						
+					<h:outputLabel value="Telefone" />
+					<p:inputMask mask="(99) 9999-9999" id="phonePeople"
+						value="#{peopleController.people.phone}"  size="11" />
+					<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Telefone da Pessoa" style="width: 1em; height: 1em;" />
+						
+				</h:panelGrid>
+				<br/>
+				<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+					action="#{peopleController.gravar}" ajax="false" update="msgs, painelCadastro, painelList">
+				</p:commandButton>
+			</p:panel>
+			<br />
+			<p:commandButton value="Voltar" action="rhMenu" 
+						ajax="false" />
+		</h:form>
+	</f:view>
+	</ui:define>
+</ui:composition>
+</html>

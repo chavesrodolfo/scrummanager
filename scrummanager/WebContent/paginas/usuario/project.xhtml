@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Projetos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:view>
+			<br />
+			<h:form id="projetoForm">
+				<p:growl id="msgs" />
+				<p:tooltip global="true" />
+
+				<!-- Lista de projetos -->
+				<p:panel id="painelList" header="Lista de projetos cadastrados"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+
+					<p:dataTable value="#{projectController.listaProjetos}" id="tabela"
+						emptyMessage="Nenhum registro encontrado" rowIndexVar="var"
+						paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="projeto">
+
+						<p:column >
+							<f:facet name="header">
+								<h:outputText value="Identificador" />
+							</f:facet>
+							<p:commandButton value="#{projeto.identification}"
+								action="#{projectController.entrar}" ajax="false">
+								<f:setPropertyActionListener
+									target="#{projectController.project}" value="#{projeto}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<f:facet name="header">
+								<h:outputText value="Data Término" />
+							</f:facet>
+							<h:outputText value="#{projeto.closingDate}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="projetoForm, msgs"
+								actionListener="#{projectController.atualizarTela}">
+								<f:setPropertyActionListener
+									target="#{projectController.project}" value="#{projeto}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+				</p:panel>
+
+				<br />
+
+				<p:panel id="painelCadastro" header="Cadastrar novo projeto"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Identificador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="nomeProjeto"
+							value="#{projectController.project.identification}" size="30" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Identifica o projeto (sigla ou abreviatura pars o projeto)" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Descrição" />
+
+						<p:inputTextarea style="width:302px;height:80px;"
+							effectDuration="400" id="descProjeto"
+							value="#{projectController.project.description}" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Descrição do Projeto" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data Início" />
+						<p:calendar id="dataInicio"
+							value="#{projectController.project.openingDate}"
+							pattern="dd/MM/yyyy" size="10" effect="fadeIn" locale="pt-BR" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data de Início do Projeto"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data Término" />
+						<p:calendar id="dataTermino"
+							value="#{projectController.project.closingDate}" size="10" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data de Término do Projeto"
+							style="width: 1em; height: 1em;" />
+					</h:panelGrid>
+					<br/>
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{projectController.gravar}"
+						update="painelCadastro, painelList, msgs" ajax="false"
+						async="true" />
+
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="painelUsuario" 
+						ajax="false" />
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

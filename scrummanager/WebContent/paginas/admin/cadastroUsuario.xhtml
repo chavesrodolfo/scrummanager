@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tAdmin.xhtml">
+
+	<ui:define name="titulo">
+            Cadastro de Usuários
+    	</ui:define>
+
+	<ui:define name="conteudo">
+		  
+	   <h:form id="usuarioForm">
+	    	<p:tooltip global="true"/>
+			
+				<p:panel id="painelCadastro" 
+	    				 header="Cadastrar novo usuário" 
+	    				 style="text-align:left; width:100%;" >
+	    				 
+	    			<h:panelGrid columns="3">				
+	    			
+	    				<h:outputLabel value="Nome" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<h:inputText id="nomeUsuario" value="#{userController.usuario.name}" size="45"/>
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="Nome do usuário" style="width: 1em; height: 1em;"/>
+	    				
+	    				<h:outputLabel value="Email" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<h:inputText id="emailUsuario" value="#{userController.usuario.email}" size="45">
+	    					<f:validator validatorId="emailValidator"/>
+	    				</h:inputText>
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="Email do usuário" style="width: 1em; height: 1em;"/>
+	    				
+	    				<h:outputLabel value="Login" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<h:inputText id="login" value="#{userController.usuario.login}" size="45" />
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="Login do usuário" style="width: 1em; height: 1em;"/>
+	    				
+	    				<h:outputLabel value="Senha" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<p:password id="senha" value="#{userController.usuario.password}" size="45"
+		    				minLength="6" promptLabel="Digite uma senha segura"
+		    				goodLabel="Boa" weakLabel="Fraca" strongLabel="Excelente" />
+	    				
+	    				
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="Senha do usuário" style="width: 1em; height: 1em;"/>
+	    				
+	    				<h:outputLabel value="Confirmar Senha" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<p:password id="confirmacaoSenha" value="#{userController.confirmacaoSenha}" size="45" 
+							minLength="6" promptLabel="Confirme sua senha"
+		    				goodLabel="Boa" weakLabel="Fraca" strongLabel="Excelente" />
+	    				<p:commandButton tabindex="99" image="ui-icon-help" title="A senha deve ser confirmada" style="width: 1em; height: 1em;"/>
+
+	    				<h:outputLabel value="Autoridade" >
+	    					<h:outputLabel value="*"  style="color:red;" />
+	    				</h:outputLabel>
+	    				<h:selectOneMenu id="comboAutoridade" value="#{userController.usuario.authority}">
+							  <f:selectItems
+							   value="#{userController.autoridades}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help" title="Autoridade do usuário para manipulação do sistema" style="width: 1em; height: 1em;"/>
+						 
+	    			</h:panelGrid>
+	    			
+	    			<br />
+	    			
+	    			<p:commandButton image="ui-icon-circle-plus" value="Gravar" action="#{userController.gravar}" update="painelList, painelCadastro, msgs" ajax="true" />
+	    			<p:commandButton image="ui-icon-arrowrefresh-1-s" type="reset" value="Restaurar" />
+    			    				 
+	    				 
+	    		</p:panel> 
+	    		
+				<!--<p:messages id="msgs"/>-->
+				<p:growl id="msgs"/>
+	    	    
+	    		<!-- Lista de usuários -->
+	    		<p:panel id="painelList" 
+	    				 header="Lista de usuários cadastrados" 
+	    				 style="text-align:left; width:100%;" toggleable="true" collapsed="false" >
+	    		
+	    		
+					<p:dataTable value="#{userController.listaUsuarios}" ajax="true"
+		   					     id="tabela"
+		   					     emptyMessage="Nenhum registro encontrado"
+		   					     rowIndexVar="var"
+		   					     paginator="true"
+		   					     paginatorPosition="bottom"
+		   					     firstPageLinkLabel="Primeira"
+		   					     previousPageLinkLabel="Anterior"
+		   					     nextPageLinkLabel="Proxima"
+		   					     lastPageLinkLabel="ultima"
+		   					     rows="5"
+		   					     var="usuario">
+	 
+		   				<p:column>
+		   					<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+							<h:outputText value="#{usuario.name}" />	
+		   				</p:column>
+		   				
+		   				<p:column>
+		   					<f:facet name="header">
+								<h:outputText value="Email" />
+							</f:facet>
+							<h:outputText value="#{usuario.email}" />	
+		   				</p:column>
+		   				
+		   				<p:column>
+		   					<f:facet name="header">
+								<h:outputText value="Login" />
+							</f:facet>
+							<h:outputText value="#{usuario.login}" />	
+		   				</p:column>
+		   				
+		   				<p:column>
+		   					<f:facet name="header">
+								<h:outputText value="Autoridade" />
+							</f:facet>
+							<h:outputText value="#{usuario.authority}" />	
+		   				</p:column>
+		   				
+		   				<p:column style="text-align: center;">
+			   				 <p:commandButton image="ui-icon-pencil" value="alterar" update="usuarioForm, msgs">
+		                        <f:setPropertyActionListener target="#{userController.usuario}" value="#{usuario}"/>
+		                     </p:commandButton>
+	                    </p:column>
+		   				
+		   				<p:column style="text-align: center;">
+			   				 <p:commandButton image="ui-icon-closethick" action="#{userController.excluir}" 
+			   				 	value="excluir" update="usuarioForm, msgs" actionListener="#{messagesController.msgExclusao}" >
+		                        <f:setPropertyActionListener target="#{userController.usuario}" value="#{usuario}" />
+		                     </p:commandButton>
+	                    </p:column>
+		   			
+		   			</p:dataTable>
+		   			    		
+	    		</p:panel>
+	    
+	    </h:form>
+			
+	</ui:define>
+</ui:composition>
+</html>

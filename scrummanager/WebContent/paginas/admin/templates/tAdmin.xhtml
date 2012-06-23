@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo" /></title>
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/css/blitzer/skin.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+
+<h:body>
+	<div style="text-align: left; width: auto;">
+		<p:panel id="painelPrincipal" header="Painel Principal do Sistema">
+			<div style="width: auto; text-align: right;">
+				<ui:insert name="topo">
+					<ui:include src="tAdmin/topo.xhtml" />
+				</ui:insert>
+			</div>	
+			
+			<div style="width: 230px; position: absolute;">
+				<ui:insert name="menuEsquerda">
+					<ui:include src="tAdmin/menuEsquerda.xhtml" />
+				</ui:insert>
+			</div>
+			
+			<div style="margin-left: 240px; margin-top: 28px;">
+				<ui:insert name="conteudo" />
+			</div>
+			
+		</p:panel>
+	</div>
+</h:body>
+</html>

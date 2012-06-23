@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Tarefas
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:view>
+			<h:form id="taskForm">
+				<br />
+				<h2>
+					<h:outputText
+						value="#{projectController.project.identification} > #{sprintController.sprint.identification} " />
+				</h2>
+				<br />
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Tarefas -->
+				<p:panel id="painelList" header="Lista de tasks cadastradas"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+					<p:dataTable value="#{taskController.listaTarefasDeUmaSprint}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="task">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Identificador" />
+							</f:facet>
+							<h:outputText value="#{task.identification}"/>
+						</p:column>
+	
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Descrição" />
+							</f:facet>
+							<h:outputText value="#{task.description}"/>
+						</p:column>
+						
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Esforço (horas)" />
+							</f:facet>
+							<h:outputText value="#{task.effortHours}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Status Tarefa" />
+							</f:facet>
+							<h:outputText value="#{task.status}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Status Teste" />
+							</f:facet>
+							<h:outputText value="#{task.statusTest}"/>
+						</p:column>
+						<p:column style="text-align: center;">
+						<p:commandButton image="ui-icon-pencil" ajax="false" 
+							value="alterar"
+							update="taskForm, msgs"
+							actionListener="#{taskController.atualizarTela}">
+							<f:setPropertyActionListener target="#{taskController.task}"
+								value="#{task}" />
+						</p:commandButton>
+					</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br/>
+				<p:panel id="painelCadastro" header="Cadastrar Nova Tarefa">
+					<h:panelGrid columns="3">
+						<h:outputLabel value="Identificador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="identification"
+							value="#{taskController.task.identification}" size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Identificador (sigla ou abreviatura) da Tarefa" style="width: 1em; height: 1em;" />
+					
+						<h:outputLabel value="Descrição:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="description"
+							value="#{taskController.task.description}" size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Descrição da Tarefa" style="width: 1em; height: 1em;" />
+							
+						<h:outputLabel value="Esforço / horas:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="effortHours"
+							value="#{taskController.task.effortHours}" size="5" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Horas necessárias para realizar a task" style="width: 1em; height: 1em;" />
+						
+						<h:outputLabel value="Status Tarefa:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<h:selectOneMenu value="#{taskController.task.status}">
+							<f:selectItems value="#{taskController.statusList}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Status de execução da task" style="width: 1em; height: 1em;" />
+						
+						<h:outputLabel value="Status Teste:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<h:selectOneMenu value="#{taskController.task.statusTest}">
+							<f:selectItems value="#{taskController.statusTestList}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+						title="Status de execução do teste da task" style="width: 1em; height: 1em;" />
+					</h:panelGrid>
+					<br/>
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{taskController.gravar}" ajax="false"
+						update="painelCadastro, painelList, msgs">
+						<f:setPropertyActionListener
+							target="#{taskController.task.sprint}"
+							value="#{sprintController.sprint}" />
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="sprintMenu" 
+						ajax="false" />
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

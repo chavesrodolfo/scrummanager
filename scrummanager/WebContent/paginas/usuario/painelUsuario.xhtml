@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="/paginas/usuario/templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Gerenciamento de Projetos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form>
+			<p:growl id="growl" showDetail="true" />
+			<br />
+			<h:panelGrid columns="2" width="100%">
+				<p:panel style="width:98%; text-align: center; border: 0;" >
+					<p:graphicImage id="image" value="/img/projeto.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Gestão de Projetos"
+						action="#{projectController.newProject}" ajax="false" style="width: 12em; height: 3em;"/>
+
+
+				</p:panel>
+				<p:panel style="width:98%; text-align: center; border: 0;">
+					<p:graphicImage id="imagePessoas" value="/img/pessoas2.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Gestão de Pessoas" action="rhMenu" style="width: 12em; height: 3em;"
+						ajax="false" />
+				</p:panel>
+			</h:panelGrid>
+			<br />
+			<br />
+			<br />
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

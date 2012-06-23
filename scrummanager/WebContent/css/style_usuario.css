@@ -1,0 +1,77 @@
+@font-face {
+	font-family: 'ChunkFive Regular';
+	src: url('../fonts/Chunkfive.eot');
+	src: local('ChunkFive Regular'), local('ChunkFive'), url('../fonts/Chunkfive.woff') format('woff'), url('../fonts/Chunkfive.svg#ChunkFive') format('svg'), url('../fonts/Chunkfive.otf') format('opentype');
+}
+
+/* Reset.css */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, q, small, strong, sub, sup, tt, var,
+ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ul, ol, li { list-style: none;}
+img { border: none; }
+:focus { outline: 0; }
+ins { text-decoration: underline; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+/* End reset */
+
+body { 
+	background: #eee url(../img/bg.png) repeat;
+	color: #333333;
+	font: 14px/24px Georgia, 'Times New Roman', Times, serif;
+}
+
+h1 { font-size: 42px; font-family: 'ChunkFive Regular', Arial, Helvetica, sans-serif; text-shadow: 0px 1px 3px #333;}
+h2 { font-size: 32px; font-family: 'ChunkFive Regular', Arial, Helvetica, sans-serif; text-shadow: 0px 1px 3px #ccc;}
+h3 { font-size: 28px; letter-spacing: -1px; }
+h4 { font-size: 23px; }
+h5 { font-size: 19px; }
+h6 { font-size: 16px; }
+
+a {
+	color: #006b6b;
+	text-decoration: none;
+}
+
+a:hover{
+	color: #006d6d;
+}
+
+h1 a:hover{
+	color: #006d6d;
+}
+
+#conteudo {
+	text-align: left;
+	width: 900px;
+	background-color : #ffffff;
+	margin: auto;
+	padding:20px 30px;
+	box-shadow: 0px 0px 20px 2px #333;	
+	-moz-box-shadow: 0px 0px 20px 2px #333; 
+	-webkit-box-shadow:0px 0px 20px 2px #333;
+}
+
+#adm {
+	text-align: right;
+}
+
+/*correcao paginacao*/
+.ui-state-default .ui-icon {
+height:20px;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cargos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="ocuppationForm">
+				<p:tooltip global="true" />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Cargos) -->
+				<p:panel id="painelList" header="Cargos"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+
+					<p:dataTable value="#{ocuppationController.ocuppationList}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="ocuppation">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Cargo" />
+							</f:facet>
+							<h:outputText value="#{ocuppation.name}" />
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="ocuppationForm, msgs"
+								actionListener="#{ocuppationController.refresh}">
+								<f:setPropertyActionListener
+									target="#{ocuppationController.ocuppation}"
+									value="#{ocuppation}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-closethick" ajax="false"
+								action="#{ocuppationController.delete}" value="excluir"
+								update="ocuppationForm, msgs"
+								actionListener="#{messagesController.msgExclusao}">
+								<f:setPropertyActionListener
+									target="#{ocuppationController.ocuppation}"
+									value="#{ocuppation}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:panel id="painelCadastro" header="Cadastrar Novo Cargo">
+
+					<h:panelGrid columns="3">
+					
+						<h:outputLabel value="Cargo">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="ocuppation"
+							value="#{ocuppationController.ocuppation.name}"
+							size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Nome do Cargo" style="width: 1em; height: 1em;" />
+					</h:panelGrid>
+					<br />
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{ocuppationController.save}" ajax="false"
+						update="painelList, painelCadastro, msgs">
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="rhMenu" 
+						ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

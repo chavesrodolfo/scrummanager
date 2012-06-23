@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Gestão de Pessoas
+    </ui:define>
+
+	<ui:define name="conteudo">
+	<f:view>
+		<h:form>
+		<br/>
+			<p:growl id="msgs" />
+			
+			<h:panelGrid columns="5" width="100%">
+				<p:panel style="width:18%; text-align: center; border: 0;" >
+					<p:graphicImage id="image" value="/img/pessoas.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Pessoas"
+						action="#{peopleController.newPeople}" ajax="false" style="width: 12em; height: 3em;"/>
+
+
+				</p:panel>
+				<p:panel style="width:18%; text-align: center; border: 0;">
+					<p:graphicImage id="imageReq" value="/img/cargos.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Cargos" action="#{ocuppationController.newOcuppation}" style="width: 12em; height: 3em;"
+						ajax="false" />
+				</p:panel>
+				
+				<p:panel style="width:18%; text-align: center; border: 0;">
+					<p:graphicImage id="imageImp" value="/img/habilidades.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Habilidades" action="#{skillController.newSkill}" style="width: 12em; height: 3em;"
+						ajax="false" />
+				</p:panel>
+				
+				<p:panel style="width:18%; text-align: center; border: 0;">
+					<p:graphicImage id="imageReun" value="/img/conhecimento.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Conhecimentos" action="#{knowledgeController.newKnowledge}" style="width: 12em; height: 3em;"
+						ajax="false" />
+				</p:panel>
+				
+				<p:panel style="width:18%; text-align: center; border: 0;">
+					<p:graphicImage id="imageRec" value="/img/hablidade.gif"
+						style="width: 10em; height: 10em;" /><br/>
+					<p:commandButton value="Buscar Recursos" action="#{skillController.showSearchPeople}" style="width: 12em; height: 3em;"
+						ajax="false" />
+				</p:panel>
+			</h:panelGrid>
+			
+			<br/>
+			<p:commandButton value="Voltar" action="painelUsuario" 
+						ajax="false" />
+		</h:form>
+	</f:view>
+	</ui:define>
+</ui:composition>
+</html>

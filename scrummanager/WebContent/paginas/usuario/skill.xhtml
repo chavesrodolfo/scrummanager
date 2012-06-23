@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Habilidades e Conhecimentos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="skillForm">
+				<p:tooltip global="true" />
+				<p:growl id="msgs" />
+				<p:panel>
+					<h:outputText value="Selecione uma pessoa e clique em buscar"></h:outputText>
+					<h:selectOneMenu value="#{skillController.skill.people.id}">
+								<f:selectItems value="#{skillController.peopleCombo}" />
+							</h:selectOneMenu>
+					<p:commandButton image="ui-icon-circle-plus" value="Buscar"
+							action="#{skillController.seachSkillsOfAPerson}" ajax="false"
+							update="painelList, painelCadastro, msgs">
+						</p:commandButton>
+
+					<!-- Lista de Cargos) -->
+					<p:panel id="painelList" header="Habilidades desta pessoa"
+						style="text-align:left; width:100%;" toggleable="true"
+						collapsed="false" rendered="#{skillController.renderiza}">
+
+
+						<p:dataTable value="#{skillController.skillsOfAPersonList}"
+							id="tabela" emptyMessage="Nenhum registro encontrado"
+							rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+							firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+							nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+							var="skill">
+
+							<p:column headerText="Habilidade">
+								<h:outputText value="#{skill.knowledge.name}" />
+							</p:column>
+
+							<p:column headerText="Nível">
+								<h:outputText value="#{skill.level}" />
+							</p:column>
+
+							<p:column headerText="Ações" style="text-align: center;">
+								<p:commandButton image="ui-icon-pencil" ajax="false"
+									actionListener="#{skillController.refresh}" value="alterar"
+									update="msgs, skillForm">
+									<f:setPropertyActionListener target="#{skillController.skill}"
+										value="#{skill}" />
+								</p:commandButton>
+								<p:commandButton image="ui-icon-closethick" ajax="false"
+									action="#{skillController.delete}" value="excluir"
+									update="msgs, skillForm"
+									actionListener="#{messagesController.msgExclusao}">
+									<f:setPropertyActionListener target="#{skillController.skill}"
+										value="#{skill}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<br />
+					<p:panel id="painelCadastro" header="Cadastrar Nova Habilidade" rendered="#{skillController.renderiza}">
+
+						<h:panelGrid columns="3">
+
+							<h:outputLabel value="Conhecimento">
+								<h:outputLabel value="*" style="color:green;" />
+							</h:outputLabel>
+							<h:selectOneMenu value="#{skillController.skill.knowledge.id}">
+								<f:selectItems value="#{skillController.knowledgeCombo}" />
+							</h:selectOneMenu>
+							<p:commandButton tabindex="99" image="ui-icon-help"
+								title="Selecione um conhecimento que possui"
+								style="width: 1em; height: 1em;" />
+
+							<h:outputLabel value="Nível">
+								<h:outputLabel value="*" style="color:green;" />
+							</h:outputLabel>
+							<h:selectOneMenu value="#{skillController.skill.level}">
+								<f:selectItems value="#{skillController.levels}" />
+							</h:selectOneMenu>
+							<p:commandButton tabindex="99" image="ui-icon-help"
+								title="Selecione um conhecimento que possui"
+								style="width: 1em; height: 1em;" />
+						</h:panelGrid>
+						<br />
+						<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+							action="#{skillController.save}" ajax="false"
+							update="painelList, painelCadastro, msgs">
+						</p:commandButton>
+					</p:panel>
+					<br/>
+					<p:commandButton value="Voltar" action="rhMenu" 
+						ajax="false" />
+				</p:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

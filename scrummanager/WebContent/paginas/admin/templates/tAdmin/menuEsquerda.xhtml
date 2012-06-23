@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:fragment>
+	<h:form>
+		<h:commandLink value="Administrativo" action="painelAdministrativo"></h:commandLink>
+		<h:outputText value=" | " />
+		<h:commandLink value="Principal" action="/paginas/usuario/painelUsuario"></h:commandLink>
+	</h:form>
+	<br />
+	<p:accordionPanel>
+		<p:tab title="Cadastros">
+			<h:panelGrid columns="2" cellpadding="10">
+				<h:form>
+					<h:commandLink value="Usuários do sistema"
+						action="#{userController.start}" />
+					
+					<br/><br/>
+					
+				</h:form>
+			</h:panelGrid>
+		</p:tab>
+	</p:accordionPanel>
+
+</ui:fragment>
+</html>

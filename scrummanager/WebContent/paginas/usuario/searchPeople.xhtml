@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Buscar Recursos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="skillForm">
+				<p:tooltip global="true" />
+				<p:growl id="msgs" />
+				<p:panel>
+					<p:panel>
+
+						<h:panelGrid columns="3">
+							<h:outputLabel value="Conhecimento">
+								<h:outputLabel value="*" style="color:green;" />
+							</h:outputLabel>
+							<h:selectOneMenu value="#{skillController.skill.knowledge.id}">
+								<f:selectItems value="#{skillController.knowledgeCombo}" />
+							</h:selectOneMenu>
+							<p:commandButton tabindex="99" image="ui-icon-help"
+								title="Selecione o conhecimento que o recurso deve ter"
+								style="width: 1em; height: 1em;" />
+
+							<h:outputLabel value="Nível" />
+							<h:selectOneMenu value="#{skillController.skill.level}">
+								<f:selectItem itemValue="" itemLabel="" />
+								<f:selectItems value="#{skillController.levels}" />
+							</h:selectOneMenu>
+							<p:commandButton tabindex="99" image="ui-icon-help"
+								title="Selecione o nível de conhecimento que o recurso deve ter"
+								style="width: 1em; height: 1em;" />
+						</h:panelGrid>
+						<br />
+						<p:commandButton value="Buscar"
+							action="#{skillController.seachSkill}" ajax="false"
+							update="painelList, painelCadastro, msgs">
+						</p:commandButton>
+					</p:panel>
+					<br/>
+					<!-- Lista de Cargos) -->
+					<p:panel id="painelList" header="Recursos encontrados"
+						style="text-align:left; width:100%;" toggleable="true"
+						collapsed="false" rendered="#{skillController.renderiza}">
+
+
+						<p:dataTable value="#{skillController.people}" id="tabela"
+							emptyMessage="Nenhum registro encontrado" rowIndexVar="var"
+							paginator="true" paginatorPosition="bottom"
+							firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+							nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+							var="pessoa">
+
+							<p:column headerText="Nome">
+								<h:outputText value="#{pessoa.name}" />
+							</p:column>
+
+							<p:column headerText="E-mail">
+								<h:outputText value="#{pessoa.email}" />
+							</p:column>
+
+							<p:column headerText="Telefone">
+								<h:outputText value="#{pessoa.phone}" />
+							</p:column>
+
+						</p:dataTable>
+					</p:panel>
+					<br />
+					<p:commandButton value="Voltar" action="rhMenu" ajax="false" />
+				</p:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Impedimentos
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="impedimentForm">
+
+				<br />
+				<h2>
+					<h:outputText value="#{projectController.project.identification}" />
+				</h2>
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Impedimentos -->
+				<p:panel id="painelList" header="Impedimentos do Projeto"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+					<p:dataTable value="#{impedimentController.impedimentsProject}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="impediment">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data" />
+							</f:facet>
+							<h:outputText value="#{impediment.registrationDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Identificador" />
+							</f:facet>
+							<h:outputText value="#{impediment.identification}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Descrição" />
+							</f:facet>
+							<h:outputText value="#{impediment.description}" ajax="false" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Requisito associado" />
+							</f:facet>
+							<h:outputText value="#{impediment.requirement.description}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Status" />
+							</f:facet>
+							<h:outputText value="#{impediment.status}" />
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Motivo de postergação" />
+							</f:facet>
+							<h:outputText value="#{impediment.reason}" />
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="impedimentForm, msgs"
+								actionListener="#{impedimentController.refresh}">
+								<f:setPropertyActionListener
+									target="#{impedimentController.impediment}"
+									value="#{impediment}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-closethick" ajax="false"
+								action="#{impedimentController.excluir}" value="excluir"
+								update="impedimentForm, msgs"
+								actionListener="#{messagesController.msgExclusao}">
+								<f:setPropertyActionListener
+									target="#{impedimentController.impediment}"
+									value="#{impediment}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:panel id="painelCadastro" header="Cadastrar Novo Impedimento">
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Idenficador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="identification"
+							value="#{impedimentController.impediment.identification}"
+							size="15" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Descrição do Requisito" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Requisito:">
+						</h:outputLabel>
+						<h:selectOneMenu
+							value="#{impedimentController.impediment.requirement.id}">
+							<f:selectItems value="#{impedimentController.requirements}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Requisito associado ao impedimento"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Descrição:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="description"
+							value="#{impedimentController.impediment.description}" size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Descrição do Requisito" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Status:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<h:selectOneMenu value="#{impedimentController.impediment.status}">
+							<f:selectItems value="#{impedimentController.statusList}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Status do impedimento" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Motivo da postergação:">
+						</h:outputLabel>
+						<p:inputText id="reason"
+							value="#{impedimentController.impediment.reason}" size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Motivo do impedimento ter sido postergado"
+							style="width: 1em; height: 1em;" />
+
+					</h:panelGrid>
+					<br />
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{impedimentController.gravar}" ajax="false"
+						update="painelCadastro, painelList, msgs">
+						<f:setPropertyActionListener
+							target="#{impedimentController.impediment.project}"
+							value="#{projectController.project}" />
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="projectMenu" 
+						ajax="false" />
+
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

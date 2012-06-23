@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="scrummanagerPU" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>br.com.scrummanager.model.User</class>
+		<class>br.com.scrummanager.model.Project</class>
+		<class>br.com.scrummanager.model.Sprint</class>
+		<class>br.com.scrummanager.model.Task</class>
+		<class>br.com.scrummanager.model.Skill</class>
+		<class>br.com.scrummanager.model.Knowledge</class>
+		<class>br.com.scrummanager.model.People</class>
+		<class>br.com.scrummanager.model.Requirement</class>
+		<class>br.com.scrummanager.model.Impediment</class>
+		<class>br.com.scrummanager.model.Conference</class>
+		<class>br.com.scrummanager.model.Ocuppation</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="root" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/scrummanager" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="use_sql_comments" value="true" />
+			<property name="etex.package.persistent=br.com.scrummanager.model" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

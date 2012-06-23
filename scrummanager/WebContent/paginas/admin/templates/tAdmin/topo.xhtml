@@ -1,0 +1,13 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:fragment>
+	<h:form>
+		<h:outputText value="Voce está logado como"/>
+		<b><h:outputText value="#{loginController.username}"/></b> |  
+		<h:commandLink value="Encerrar sessão" action="#{loginController.logout}" />
+	</h:form>
+</ui:fragment>
+</html>

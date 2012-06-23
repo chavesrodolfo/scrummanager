@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Sprints
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+
+		<f:view>
+			<h:form>
+				<br />
+				<h1>
+					<h:outputText value="#{projectController.project.identification}" />
+					<h:outputText value=" > " />
+					<h:outputText value="#{sprintController.sprint.identification}" />
+				</h1>
+				<br />
+				<h:panelGrid columns="2" width="100%">
+					<p:panel style="width:48%; text-align: center; border: 0;">
+						<p:graphicImage id="image" value="/img/tarefas2.gif"
+							style="width: 10em; height: 10em;" />
+						<br />
+						<p:commandButton value="Tarefas"
+							action="#{taskController.newTask}" ajax="false"
+							style="width: 12em; height: 3em;" />
+
+
+					</p:panel>
+					<p:panel style="width:48%; text-align: center; border: 0;">
+						<p:graphicImage id="imagePB" value="/img/selectedPB.gif"
+							style="width: 10em; height: 10em;" />
+						<br />
+						<p:commandButton value="Selected PB"
+							action="#{sprintController.showSelectedPB}"
+							style="width: 12em; height: 3em;" ajax="false" />
+					</p:panel>
+				</h:panelGrid>
+				<br />
+				<p:commandButton value="Voltar"
+					action="#{sprintController.newSprint}" ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

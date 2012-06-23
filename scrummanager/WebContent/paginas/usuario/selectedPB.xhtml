@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Selected Product Backlog
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="selectedPBForm">
+
+				<br />
+				<h2>
+					<h:outputText value="#{projectController.project.identification} > #{sprintController.sprint.identification}" />
+				</h2>
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Requisitos (Product Backlog) -->
+				<p:panel id="painelList"
+					header="Selected Product Backlog do Projeto"
+					style="text-align:left; width:100%;">
+					<br />
+					<p:graphicImage id="image" value="/img/info.gif"
+						style="width: 1.5em; height: 1.5em;" />
+					<h:outputText rendered="#{!sprintController.showSelectedPB}"
+						value=" O Seleted Product Backlog ainda não foi gerado. Selecione abaixo os requisitos desejados e clique em Gerar."></h:outputText>
+					<br />
+					<br />
+					<p:dataTable value="#{sprintController.selectedPBList}" id="tabela"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="selected"
+						rendered="#{sprintController.showSelectedPB}">
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{selected.description}" />
+						</p:column>
+
+						<p:column headerText="Esforço / Horas">
+							<h:outputText value="#{selected.effortHours}" />
+						</p:column>
+
+						<p:column headerText="Status">
+							<h:outputText value="#{selected.status}" />
+						</p:column>
+
+					</p:dataTable>
+					<br/>
+					<p:commandButton value="Editar Selected PB" style="width: 12em; height: 3em;"
+						rendered="#{sprintController.showSelectedPB}"
+						action="#{sprintController.editSelectedPB}" ajax="false"
+						update="selectedPBForm">
+					</p:commandButton>
+
+
+					<p:dataTable value="#{sprintController.requirementsProject}"
+						id="tabela2" rowIndexVar="var" paginator="true"
+						paginatorPosition="bottom" firstPageLinkLabel="Primeira"
+						previousPageLinkLabel="Anterior" nextPageLinkLabel="Proxima"
+						lastPageLinkLabel="ultima" rows="5" var="requirement"
+						rendered="#{sprintController.showRequirements}"
+						selection="#{sprintController.selectedRequirements}">
+
+						<p:column selectionMode="multiple" />
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{requirement.description}" />
+						</p:column>
+
+						<p:column headerText="Esforço / Horas">
+							<h:outputText value="#{requirement.effortHours}" />
+						</p:column>
+
+						<p:column headerText="Status">
+							<h:outputText value="#{requirement.status}" />
+						</p:column>
+					</p:dataTable>
+					<br/>
+					<p:commandButton value="Gerar Selected PB"
+						action="#{sprintController.buildSelectedPB}"
+						update="selectedPBForm" style="width: 12em; height: 3em;" ajax="false"
+						rendered="#{sprintController.showRequirements}">
+					</p:commandButton>
+
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="sprintMenu" 
+						ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

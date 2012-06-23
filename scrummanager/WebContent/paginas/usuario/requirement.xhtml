@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Product Backlog
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.ui-dashboard-column {
+	width: 275px;
+}
+</style>
+
+		<f:view>
+			<h:form id="requirementForm">
+
+				<br />
+				<h2>
+					<h:outputText value="#{projectController.project.identification}" />
+				</h2>
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de Rquisitos (Product Backlog) -->
+				<p:panel id="painelList" header="Product Backlog do Projeto"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+
+
+					<p:dataTable value="#{requirementController.requirementsProject}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="requirement">
+
+						<p:column headerText="Identificador">
+							<h:outputText value="#{requirement.identification}" />
+						</p:column>
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{requirement.description}" />
+						</p:column>
+
+						<p:column headerText="Esforço / Horas" >
+							<h:outputText value="#{requirement.effortHours}" />
+						</p:column>
+
+						<p:column headerText="Status">
+							<h:outputText value="#{requirement.status}" />
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="requirementForm, msgs"
+								actionListener="#{requirementController.atualizarTela}">
+								<f:setPropertyActionListener
+									target="#{requirementController.requirement}"
+									value="#{requirement}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-closethick" ajax="false"
+								action="#{requirementController.excluir}" value="excluir"
+								update="requirementForm, msgs"
+								actionListener="#{messagesController.msgExclusao}">
+								<f:setPropertyActionListener
+									target="#{requirementController.requirement}"
+									value="#{requirement}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:panel id="painelCadastro" header="Cadastrar Novo Requisito">
+
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Identificador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="identification"
+							value="#{requirementController.requirement.identification}"
+							size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Identificador (sigla ou abreviatura) do Requisito"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Descrição:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="description"
+							value="#{requirementController.requirement.description}"
+							size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Descrição do Requisito" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Esforço / Horas:" >
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="effortHours"
+							value="#{requirementController.requirement.effortHours}" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Horas necessárias para desenvolver o requisito"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Status:">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<h:selectOneMenu
+							value="#{requirementController.requirement.status}">
+							<f:selectItems value="#{requirementController.statusList}" />
+						</h:selectOneMenu>
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Status de execução do requisito"
+							style="width: 1em; height: 1em;" />
+					</h:panelGrid>
+					<br />
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{requirementController.gravar}" ajax="false"
+						update="painelCadastro, painelList, msgs">
+						<f:setPropertyActionListener
+							target="#{requirementController.requirement.project}"
+							value="#{projectController.project}" />
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="projectMenu" 
+						ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>

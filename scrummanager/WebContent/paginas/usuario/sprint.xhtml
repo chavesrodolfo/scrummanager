@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+<ui:composition template="templates/tUsuario.xhtml">
+
+	<ui:define name="titulo">
+    	Scrum Manager - Cadastro de Sprints
+    </ui:define>
+
+	<ui:define name="conteudo">
+
+		<f:view>
+			<h:form id="sprintForm">
+
+				<br />
+				<h2>
+					<h:outputText value="Projeto: #{projectController.project.identification}" />
+				</h2>
+				<br />
+				<p:growl id="msgs" />
+
+				<!-- Lista de sprints -->
+				<p:panel id="painelList" header="Lista de sprints cadastradas"
+					style="text-align:left; width:100%;" toggleable="true"
+					collapsed="false">
+
+
+					<p:dataTable value="#{sprintController.listaSprintsDeUmProjeto}"
+						id="tabela" emptyMessage="Nenhum registro encontrado"
+						rowIndexVar="var" paginator="true" paginatorPosition="bottom"
+						firstPageLinkLabel="Primeira" previousPageLinkLabel="Anterior"
+						nextPageLinkLabel="Proxima" lastPageLinkLabel="ultima" rows="5"
+						var="sprint">
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Identificador" />
+							</f:facet>
+							<p:commandButton value="#{sprint.identification}" ajax="false"
+								action="#{sprintController.entrar}">
+								<f:setPropertyActionListener target="#{sprintController.sprint}"
+									value="#{sprint}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Data Término" />
+							</f:facet>
+							<h:outputText value="#{sprint.closingDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-pencil" ajax="false"
+								value="alterar" update="sprintForm, msgs"
+								actionListener="#{sprintController.atualizarTela}">
+								<f:setPropertyActionListener target="#{sprintController.sprint}"
+									value="#{sprint}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="text-align: center;">
+							<p:commandButton image="ui-icon-closethick" ajax="false"
+								action="#{sprintController.excluir}" value="excluir"
+								update="sprintForm, msgs"
+								actionListener="#{messagesController.msgExclusao}">
+								<f:setPropertyActionListener target="#{sprintController.sprint}"
+									value="#{sprint}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</p:panel>
+				<br />
+				<p:panel id="painelCadastro" header="Cadastrar Nova Sprint">
+
+					<h:panelGrid columns="3">
+
+						<h:outputLabel value="Identificador">
+							<h:outputLabel value="*" style="color:green;" />
+						</h:outputLabel>
+						<p:inputText id="identification"
+							value="#{sprintController.sprint.identification}" size="45" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Identificador (sigla ou abreviatura) da Sprint" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Descrição" />
+						<p:inputTextarea id="descSprint"
+							value="#{sprintController.sprint.description}" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Descrição do Sprint" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data Início:" />
+						<p:calendar id="dataInicio"
+							value="#{sprintController.sprint.openingDate}"
+							pattern="dd/MM/yyyy" size="10" effect="fadeIn" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data de Início do Sprint" style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data Término" />
+						<p:calendar id="dataTermino"
+							value="#{sprintController.sprint.closingDate}"
+							pattern="dd/MM/yyyy" size="10" effect="fadeIn" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data de Término do Sprint"
+							style="width: 1em; height: 1em;" />
+
+						<h:outputLabel value="Data Entrega Release" />
+						<p:calendar id="dataEntrega"
+							value="#{sprintController.sprint.deliveryDate}"
+							pattern="dd/MM/yyyy" size="10" effect="fadeIn" />
+						<p:commandButton tabindex="99" image="ui-icon-help"
+							title="Data da Entrega do Release"
+							style="width: 1em; height: 1em;" />
+					</h:panelGrid>
+					<br />
+					<p:commandButton image="ui-icon-circle-plus" value="Gravar"
+						action="#{sprintController.gravar}" ajax="false"
+						update="painelCadastro, painelList, msgs">
+						<f:setPropertyActionListener
+							target="#{sprintController.sprint.project}"
+							value="#{projectController.project}" />
+					</p:commandButton>
+				</p:panel>
+				<br/>
+				<p:commandButton value="Voltar" action="projectMenu" 
+						ajax="false" />
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>
+</html>
